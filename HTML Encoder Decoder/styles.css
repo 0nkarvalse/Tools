@@ -1,0 +1,118 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+    margin: 0;
+}
+
+.container {
+    text-align: center;
+    width: 80%;
+    max-width: 800px;
+    margin: auto;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.button-left {
+    flex: 1;
+    background-color: #ffffff; /* White background */
+    color: #333; /* Text color */
+    border: 1px solid #ccc; /* Border */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer;
+    padding: 10px 20px; /* Padding */
+    font-size: 16px; /* Font size */
+    transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.button-center {
+    flex: 1;
+    background-color: #007BFF; /* Blue background */
+    color: white; /* Text color */
+    border: none; /* No border */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer;
+    padding: 10px 20px; /* Padding */
+    font-size: 16px; /* Font size */
+    transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.button-right {
+    flex: 1;
+    background-color: #ffffff; /* White background */
+    color: #333; /* Text color */
+    border: 1px solid #ccc; /* Border */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer;
+    padding: 10px 20px; /* Padding */
+    font-size: 16px; /* Font size */
+    transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.button-left:hover, .button-right:hover {
+    background-color: #f0f0f0; /* Light gray on hover */
+}
+
+.tabs {
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 0 5px;
+}
+
+.tab-button.active {
+    background-color: #0056b3; /* Darker blue for active tab */
+}
+
+.tab-button:not(.active) {
+    background-color: #ccc; /* Light gray for inactive tab */
+    color: #666; /* Darker gray text for inactive tab */
+}
+
+.textarea-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+textarea {
+    width: 45%;
+    height: 300px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: none;
+    margin: 0 10px;
+}
+
+.arrow {
+    font-size: 24px;
+    color: #333;
+}
