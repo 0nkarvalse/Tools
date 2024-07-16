@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case Converter</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  .case-converter {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    text-align: center;
+    width: 400px;
+  }
+  
+  h1 {
+    margin-top: 0;
+  }
+  
+  textarea {
+    width: 100%;
+    height: 150px;
+    padding: 8px;
+    margin: 10px 0;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    resize: none;
+    font-size: 14px;
+  }
+  
+  button {
+    padding: 8px 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 14px;
+    margin: 5px;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  
+  .output {
+    text-align: left;
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    white-space: pre-wrap;
+  }
+</style>
+</head>
+<body>
+  <div class="case-converter">
+    <h1>Case Converter</h1>
+    
+    <textarea id="textInput" placeholder="Enter text to convert..."></textarea>
+    
+    <div>
+      <button onclick="convertToLowerCase()">Lowercase</button>
+      <button onclick="convertToUpperCase()">UPPERCASE</button>
+      <button onclick="convertToSentenceCase()">Sentence Case</button>
+      <button onclick="convertToTitleCase()">Title Case</button>
+      <button onclick="convertToMixedCase()">Mixed Case</button>
+      <button onclick="convertToInverseCase()">Inverse Case</button>
+    </div>
+    
+    <div class="output" id="output"></div>
+  </div>
+
+  <script>
+    // Function to convert text to lowercase
+    function convertToLowerCase() {
+      const inputText = document.getElementById('textInput').value;
+      const outputText = inputText.toLowerCase();
+      displayOutput(outputText);
+    }
+    
+    // Function to convert text to UPPERCASE
+    function convertToUpperCase() {
+      const inputText = document.getElementById('textInput').value;
+      const outputText = inputText.toUpperCase();
+      displayOutput(outputText);
+    }
+    
+    // Function to convert text to Sentence Case
+    function convertToSentenceCase() {
+      const inputText = document.getElementById('textInput').value;
+      const outputText = inputText.charAt(0).toUpperCase() + inputText.slice(1).toLowerCase();
+      displayOutput(outputText);
+    }
+    
+    // Function to convert text to Title Case
+    function convertToTitleCase() {
+      const inputText = document.getElementById('textInput').value;
+      const words = inputText.split(' ');
+      for (let i = 0; i < words.length; i++) {
+        words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1).toLowerCase();
+      }
+      const outputText = words.join(' ');
+      displayOutput(outputText);
+    }
+    
+    // Function to convert text to Mixed Case
+    function convertToMixedCase() {
+      const inputText = document.getElementById('textInput').value;
+      let outputText = '';
+      for (let i = 0; i < inputText.length; i++) {
+        const randomCase = Math.random() < 0.5 ? inputText[i].toUpperCase() : inputText[i].toLowerCase();
+        outputText += randomCase;
+      }
+      displayOutput(outputText);
+    }
+    
+    // Function to convert text to Inverse Case
+    function convertToInverseCase() {
+      const inputText = document.getElementById('textInput').value;
+      let outputText = '';
+      for (let i = 0; i < inputText.length; i++) {
+        const char = inputText[i];
+        outputText += char === char.toUpperCase() ? char.toLowerCase() : char.toUpperCase();
+      }
+      displayOutput(outputText);
+    }
+    
+    // Function to display converted output
+    function displayOutput(outputText) {
+      const outputDiv = document.getElementById('output');
+      outputDiv.textContent = outputText;
+    }
+  </script>
+</body>
+</html>

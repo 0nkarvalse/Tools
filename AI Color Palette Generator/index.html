@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Color Palette Generator</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  .palette-generator {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    text-align: center;
+    width: 400px;
+  }
+  
+  h1 {
+    margin-top: 0;
+  }
+  
+  .dropdown {
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+  
+  .dropdown select {
+    padding: 8px 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    background-color: #4c4eaf;
+    color: white;
+    font-size: 14px;
+  }
+  
+  .dropdown select:focus {
+    outline: none;
+  }
+  
+  .button-group {
+    margin-top: 10px;
+  }
+  
+  button {
+    padding: 8px 16px;
+    margin: 0 5px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    background-color: #6342da;
+    color: white;
+    font-size: 14px;
+  }
+  
+  .color-box {
+    /* display: inline-block; */
+    width: 100px;
+    height: 100px;
+    margin: 10px;
+    border-radius: 4px;
+    border: 1px solid #cccccc;
+    position: relative;
+  }
+  
+  .color-name {
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    color: #666666;
+  }
+  
+  #previewModal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal-content {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    text-align: center;
+    max-width: 80%;
+  }
+  
+  .modal-buttons {
+    margin-top: 20px;
+  }
+  
+  .modal-buttons button {
+    margin: 0 10px;
+  }
+</style>
+</head>
+<body>
+  <div class="palette-generator">
+    <h1>AI Color Palette Generator</h1>
+    
+    <div class="dropdown">
+      <select id="themeSelect" onchange="updateTheme()">
+        <option value="light">Light Theme</option>
+        <option value="dark">Dark Theme</option>
+      </select>
+    </div>
+    
+    <label for="baseColor">Enter Base Color:</label>
+    <input type="color" id="baseColor" class="color-picker">
+    
+    <button onclick="generatePalette()">Generate Palette</button>
+    
+    <div id="palette" class="palette"></div>
+    
+    <button onclick="previewOnDesktop()">Preview on Desktop</button>
+  </div>
+
+  <div id="previewModal">
+    <div class="modal-content">
+      <h2>Design Preview</h2>
+      <div id="designPreview" class="palette"></div>
+      <div class="modal-buttons">
+        <button onclick="applyDesign()" id="acceptButton">Accept</button>
+        <button onclick="closeModal()" id="cancelButton">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let baseColor = '#ffffff';
+    let theme = 'light'; // Default theme
+    
+    // Update theme based on dropdown selection
+    function updateTheme() {
+      theme = document.getElementById('themeSelect').value;
+    }
+    
+    // Function to generate the color palette
+    function generatePalette() {
+      baseColor = document.getElementById('baseColor').value;
+      const palette = document.getElementById('palette');
+      palette.innerHTML = '';
+      
+      // Generate colors based on theme
+      let primaryColor = baseColor;
+      let accentColor = lightenColor(baseColor, 0.2);
+      let backgroundColor = theme === 'light' ? '#ffffff' : '#333333';
+      let textColor = theme === 'light' ? '#333333' : '#ffffff';
+      
+      // Display color boxes with color codes
+      displayColorBox(palette, primaryColor, 'Primary');
+      displayColorBox(palette, accentColor, 'Accent');
+      displayColorBox(palette, backgroundColor, 'Background');
+      displayColorBox(palette, textColor, 'Text');
+    }
+    
+    // Function to display a color box with color code and copy button
+    function displayColorBox(container, color, name) {
+      const colorBox = document.createElement('div');
+      colorBox.classList.add('color-box');
+      colorBox.style.backgroundColor = color;
+      
+      const colorName = document.createElement('div');
+      colorName.classList.add('color-name');
+      colorName.textContent = name;
+      
+      const colorCode = document.createElement('div');
+      colorCode.textContent = color.toUpperCase();
+      
+      const copyButton = document.createElement('button');
+      copyButton.textContent = 'Copy';
+      copyButton.addEventListener('click', function() {
+        copyToClipboard(color);
+      });
+      
+      colorBox.appendChild(colorName);
+      colorBox.appendChild(colorCode);
+      colorBox.appendChild(copyButton);
+      container.appendChild(colorBox);
+    }
+    
+    // Function to copy color code to clipboard
+    function copyToClipboard(color) {
+      const dummy = document.createElement('textarea');
+      document.body.appendChild(dummy);
+      dummy.value = color;
+      dummy.select();
+      document.execCommand('copy');
+      document.body.removeChild(dummy);
+      alert(`Copied: ${color}`);
+    }
+    
+    // Function to lighten a color
+    function lightenColor(color, amount) {
+      let r = parseInt(color.substring(1, 3), 16);
+      let g = parseInt(color.substring(3, 5), 16);
+      let b = parseInt(color.substring(5, 7), 16);
+      
+      r = Math.min(255, Math.round(r * (1 + amount)));
+      g = Math.min(255, Math.round(g * (1 + amount)));
+      b = Math.min(255, Math.round(b * (1 + amount)));
+      
+      return `rgb(${r}, ${g}, ${b})`;
+    }
+    
+    // Function to preview design with generated colors
+    function previewOnDesktop() {
+      const previewModal = document.getElementById('previewModal');
+      previewModal.style.display = 'flex';
+      
+      const designPreview = document.getElementById('designPreview');
+      designPreview.innerHTML = '';
+      
+      const message = document.createElement('div');
+      message.textContent = generateRandomMessage();
+  
+      message.style.color = theme === 'light' ? '#333333' : '#ffffff';
+      message.style.padding = '20px';
+      message.style.marginBottom = '20px';
+      designPreview.appendChild(message);
+      
+      const acceptButton = document.getElementById('acceptButton');
+      acceptButton.style.backgroundColor = baseColor;
+      
+      const cancelButton = document.getElementById('cancelButton');
+      cancelButton.style.backgroundColor = lightenColor(baseColor, 0.2);
+    }
+    
+    // Function to generate a random message
+    function generateRandomMessage() {
+      const messages = [
+        'Hello World!',
+        'Lorem ipsum dolor sit amet.',
+        'This is a sample message.',
+        'Random text for preview.',
+        'Design preview message.'
+      ];
+      return messages[Math.floor(Math.random() * messages.length)];
+    }
+    
+    // Function to apply design changes
+    function applyDesign() {
+      alert('Design changes applied!');
+      closeModal();
+    }
+    
+    // Function to close the modal
+    function closeModal() {
+      const previewModal = document.getElementById('previewModal');
+      previewModal.style.display = 'none';
+    }
+  </script>
+</body>
+</html>

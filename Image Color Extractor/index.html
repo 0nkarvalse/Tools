@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Image Color Extractor</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="container">
+  <h1>Image Color Extractor</h1>
+  <div>
+    <label for="upload">Upload Image:</label>
+    <input type="file" id="upload">
+  </div>
+  <div id="canvasContainer">
+    <canvas id="imageCanvas"></canvas>
+  </div>
+  <div class="colorDisplayContainer">
+    <div id="colorDisplay"></div>
+    <ul id="colorCodes"></ul>
+  </div>
+  <div class="shadesContainer">
+    <h2>Color Shades</h2>
+    <div id="colorShades"></div>
+  </div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>

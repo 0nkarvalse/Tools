@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Letter Counter</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  .letter-counter {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    text-align: center;
+    width: 400px;
+  }
+  
+  h1 {
+    margin-top: 0;
+  }
+  
+  textarea {
+    width: 100%;
+    height: 150px;
+    padding: 8px;
+    margin: 10px 0;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    resize: none;
+    font-size: 14px;
+  }
+  
+  .output {
+    text-align: left;
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+  }
+</style>
+</head>
+<body>
+  <div class="letter-counter">
+    <h1>Letter Counter</h1>
+    
+    <textarea id="textInput" placeholder="Enter text..."></textarea>
+    
+    <div class="output" id="output">
+      <p>Total Characters: <span id="totalChars">0</span></p>
+      <p>Letters (including spaces): <span id="totalLetters">0</span></p>
+      <p>Letters (excluding spaces): <span id="lettersWithoutSpaces">0</span></p>
+    </div>
+  </div>
+
+  <script>
+    // Function to update character counts
+    function updateCounts() {
+      const inputText = document.getElementById('textInput').value;
+      const totalChars = inputText.length;
+      const lettersWithSpaces = inputText.replace(/[^A-Za-z]/g, '').length;
+      const lettersWithoutSpaces = inputText.replace(/\s/g, '').length;
+      
+      document.getElementById('totalChars').textContent = totalChars;
+      document.getElementById('totalLetters').textContent = lettersWithSpaces;
+      document.getElementById('lettersWithoutSpaces').textContent = lettersWithoutSpaces;
+    }
+    
+    // Event listener for input changes
+    document.getElementById('textInput').addEventListener('input', updateCounts);
+    
+    // Initial update on page load
+    updateCounts();
+  </script>
+</body>
+</html>

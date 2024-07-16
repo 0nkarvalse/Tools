@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>React Native Shadow Generator</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  .shadow-generator {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    text-align: center;
+    width: 400px;
+  }
+  
+  h1 {
+    margin-top: 0;
+  }
+  
+  .input-group {
+    margin-bottom: 20px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  .preview-box {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+</style>
+</head>
+<body>
+  <div class="shadow-generator">
+    <h1>React Native Shadow Generator</h1>
+    
+    <div class="input-group">
+      <label for="horizontalLength">Horizontal Length:</label>
+      <input type="number" id="horizontalLength" placeholder="Horizontal length...">
+    </div>
+    
+    <div class="input-group">
+      <label for="verticalLength">Vertical Length:</label>
+      <input type="number" id="verticalLength" placeholder="Vertical length...">
+    </div>
+    
+    <div class="input-group">
+      <label for="blurRadius">Blur Radius:</label>
+      <input type="number" id="blurRadius" placeholder="Blur radius...">
+    </div>
+    
+    <div class="input-group">
+      <label for="shadowColor">Shadow Color:</label>
+      <input type="color" id="shadowColor" value="#000000">
+    </div>
+    
+    <div class="preview-box" id="previewBox"></div>
+  </div>
+
+  <script>
+    // Function to update shadow preview
+    function updateShadow() {
+      const horizontalLength = document.getElementById('horizontalLength').value;
+      const verticalLength = document.getElementById('verticalLength').value;
+      const blurRadius = document.getElementById('blurRadius').value;
+      const shadowColor = document.getElementById('shadowColor').value;
+      
+      const previewBox = document.getElementById('previewBox');
+      previewBox.style.boxShadow = `${horizontalLength}px ${verticalLength}px ${blurRadius}px ${shadowColor}`;
+    }
+    
+    // Event listeners for input changes
+    document.getElementById('horizontalLength').addEventListener('input', updateShadow);
+    document.getElementById('verticalLength').addEventListener('input', updateShadow);
+    document.getElementById('blurRadius').addEventListener('input', updateShadow);
+    document.getElementById('shadowColor').addEventListener('input', updateShadow);
+    
+    // Initial shadow preview
+    updateShadow();
+  </script>
+</body>
+</html>

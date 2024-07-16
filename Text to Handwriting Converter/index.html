@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Text to Handwriting Converter</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  .converter {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    text-align: center;
+    width: 600px;
+  }
+  
+  h1 {
+    margin-top: 0;
+  }
+  
+  textarea {
+    width: 100%;
+    height: 150px;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    resize: none;
+    font-size: 16px;
+    font-family: 'Courier New', Courier, monospace; /* Default font */
+  }
+  
+  .options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .options select,
+  .options input[type="color"] {
+    padding: 6px;
+    font-size: 14px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+  }
+  
+  .output {
+    text-align: left;
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    white-space: pre-wrap;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  
+  .pages {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .page {
+    cursor: pointer;
+    padding: 10px 20px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    margin-right: 10px;
+  }
+  
+  .page.active {
+    background-color: #4CAF50;
+    color: white;
+  }
+</style>
+</head>
+<body>
+  <div class="converter">
+    <h1>Text to Handwriting Converter</h1>
+    
+    <textarea id="textInput" placeholder="Enter text to convert..."></textarea>
+    
+    <div class="options">
+      <div>
+        <label for="fontFamily">Font:</label>
+        <select id="fontFamily" onchange="applyFont()">
+          <option value="Courier New, Courier, monospace">Courier New</option>
+          <option value="Georgia, serif">Georgia</option>
+          <option value="Arial, Helvetica, sans-serif">Arial</option>
+          <option value="Times New Roman, Times, serif">Times New Roman</option>
+        </select>
+      </div>
+      
+      <div>
+        <label for="fontSize">Font Size:</label>
+        <input type="number" id="fontSize" min="10" max="36" value="16" onchange="applyFont()">
+      </div>
+      
+      <div>
+        <label for="fontColor">Font Color:</label>
+        <input type="color" id="fontColor" value="#000000" onchange="applyFont()">
+      </div>
+    </div>
+    
+    <div class="output" id="output"></div>
+    
+    <div class="pages">
+      <div class="page active" onclick="changePage(1)">Page 1</div>
+      <div class="page" onclick="changePage(2)">Page 2</div>
+      <div class="page" onclick="changePage(3)">Page 3</div>
+    </div>
+  </div>
+
+  <script>
+    let currentPage = 1;
+
+    // Function to apply selected font style
+    function applyFont() {
+      const fontFamily = document.getElementById('fontFamily').value;
+      const fontSize = document.getElementById('fontSize').value + 'px';
+      const fontColor = document.getElementById('fontColor').value;
+      
+      const outputDiv = document.getElementById('output');
+      outputDiv.style.fontFamily = fontFamily;
+      outputDiv.style.fontSize = fontSize;
+      outputDiv.style.color = fontColor;
+      outputDiv.textContent = document.getElementById('textInput').value;
+    }
+
+    // Function to change active page
+    function changePage(pageNumber) {
+      currentPage = pageNumber;
+      document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+      });
+      document.querySelector(`.page:nth-child(${pageNumber})`).classList.add('active');
+      
+      // Example content for different pages
+      let text = '';
+      if (pageNumber === 1) {
+        text = 'This is page 1 content.';
+      } else if (pageNumber === 2) {
+        text = 'This is page 2 content.';
+      } else if (pageNumber === 3) {
+        text = 'This is page 3 content.';
+      }
+      document.getElementById('textInput').value = text;
+      applyFont();
+    }
+
+    // Initial font application and content for the first page
+    applyFont();
+  </script>
+</body>
+</html>

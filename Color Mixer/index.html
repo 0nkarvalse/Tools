@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Color Mixer with Color Code and Copy Button</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  .mixer {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    text-align: center;
+    width: 300px;
+  }
+  
+  h1 {
+    margin-top: 0;
+  }
+  
+  .color-input {
+    width: 80%;
+    margin: 10px auto;
+  }
+  
+  .color-label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  
+  .color-slider {
+    width: 80%;
+    margin: 5px auto;
+  }
+  
+  .color-preview {
+    width: 80%;
+    height: 100px;
+    margin: 10px auto;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    position: relative;
+  }
+  
+  .color-code {
+    font-size: 14px;
+    margin-top: 5px;
+  }
+  
+  .copy-button {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    padding: 5px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+  }
+</style>
+</head>
+<body>
+  <div class="mixer">
+    <h1>Color Mixer</h1>
+    
+    <div class="color-input">
+      <label for="color1" class="color-label">Color 1</label>
+      <input type="color" id="color1" class="color-picker">
+    </div>
+    
+    <div class="color-input">
+      <label for="color2" class="color-label">Color 2</label>
+      <input type="color" id="color2" class="color-picker">
+    </div>
+    
+    <div class="color-input">
+      <label for="mixRatio" class="color-label">Mix Ratio</label>
+      <input type="range" id="mixRatio" class="color-slider" min="0" max="100" value="50">
+    </div>
+    
+    <div class="color-preview" id="colorPreview">
+      <div class="color-code" id="colorCode"></div>
+      <button class="copy-button" id="copyButton">Copy</button>
+    </div>
+  </div>
+
+  <script>
+    // Function to update the mixed color preview
+    function updateMixedColor() {
+      const color1 = document.getElementById('color1').value;
+      const color2 = document.getElementById('color2').value;
+      const mixRatio = document.getElementById('mixRatio').value / 100;
+      
+      // Convert colors to RGB
+      const rgb1 = hexToRgb(color1);
+      const rgb2 = hexToRgb(color2);
+      
+      // Calculate mixed RGB values
+      const mixedR = Math.round(rgb1.r * mixRatio + rgb2.r * (1 - mixRatio));
+      const mixedG = Math.round(rgb1.g * mixRatio + rgb2.g * (1 - mixRatio));
+      const mixedB = Math.round(rgb1.b * mixRatio + rgb2.b * (1 - mixRatio));
+      
+      // Display mixed color
+      const mixedColor = `rgb(${mixedR}, ${mixedG}, ${mixedB})`;
+      const colorPreview = document.getElementById('colorPreview');
+      colorPreview.style.backgroundColor = mixedColor;
+      
+      // Display color code
+      const colorCode = document.getElementById('colorCode');
+      colorCode.textContent = mixedColor.toUpperCase();
+    }
+    
+    // Function to convert HEX color to RGB
+    function hexToRgb(hex) {
+      const bigint = parseInt(hex.slice(1), 16);
+      const r = (bigint >> 16) & 255;
+      const g = (bigint >> 8) & 255;
+      const b = bigint & 255;
+      return { r, g, b };
+    }
+    
+    // Function to copy color code to clipboard
+    function copyColorCode() {
+      const colorCode = document.getElementById('colorCode').textContent;
+      
+      const dummy = document.createElement('textarea');
+      document.body.appendChild(dummy);
+      dummy.value = colorCode;
+      dummy.select();
+      document.execCommand('copy');
+      document.body.removeChild(dummy);
+      
+      alert(`Copied: ${colorCode}`);
+    }
+    
+    // Event listeners for input changes
+    const colorInputs = document.querySelectorAll('.color-picker');
+    colorInputs.forEach(input => {
+      input.addEventListener('input', updateMixedColor);
+    });
+    
+    const mixRatioInput = document.getElementById('mixRatio');
+    mixRatioInput.addEventListener('input', updateMixedColor);
+    
+    // Event listener for copy button
+    const copyButton = document.getElementById('copyButton');
+    copyButton.addEventListener('click', copyColorCode);
+    
+    // Initial update of mixed color preview
+    updateMixedColor();
+  </script>
+</body>
+</html>

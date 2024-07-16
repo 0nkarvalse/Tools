@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RGBA to HEX Converter</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  .converter {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  
+  h1 {
+    text-align: center;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 8px;
+  }
+  
+  input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    margin-bottom: 12px;
+    box-sizing: border-box;
+  }
+  
+  button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  #hexResult {
+    font-size: 18px;
+    margin-top: 10px;
+  }
+</style>
+</head>
+<body>
+  <div class="converter">
+    <h1>RGBA to HEX Converter</h1>
+    <label for="rgbaInput">Enter RGBA color code:</label>
+    <input type="text" id="rgbaInput" placeholder="e.g., rgba(255, 0, 0, 1)" />
+    <button onclick="convertRgbaToHex()">Convert</button>
+    <div id="hexResult"></div>
+  </div>
+
+  <script>
+    function convertRgbaToHex() {
+      const rgbaInput = document.getElementById('rgbaInput').value.trim();
+      
+      // Regular expression to match RGBA format
+      const rgbaRegex = /^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([01](?:\.\d+)?)?)?\)$/i;
+      
+      // Check if input matches RGBA format
+      if (!rgbaRegex.test(rgbaInput)) {
+        alert('Invalid RGBA color code. Please enter a valid RGBA color code.');
+        return;
+      }
+      
+      // Extract RGBA components
+      const matches = rgbaInput.match(rgbaRegex);
+      const r = parseInt(matches[1], 10);
+      const g = parseInt(matches[2], 10);
+      const b = parseInt(matches[3], 10);
+      let a = parseFloat(matches[4] || 1);
+      
+      // Convert alpha to hex format (if alpha is not 1)
+      if (a !== 1) {
+        a = Math.round(a * 255);
+      }
+      
+      // Convert RGB to HEX format
+      const hex = `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
+      
+      // Display HEX result
+      const hexResult = document.getElementById('hexResult');
+      hexResult.textContent = `HEX: ${hex}`;
+    }
+  </script>
+</body>
+</html>

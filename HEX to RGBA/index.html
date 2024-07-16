@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HEX to RGBA Converter</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  .converter {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  
+  h1 {
+    text-align: center;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 8px;
+  }
+  
+  input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    margin-bottom: 12px;
+    box-sizing: border-box;
+  }
+  
+  button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  #rgbaResult {
+    font-size: 18px;
+    margin-top: 10px;
+  }
+</style>
+</head>
+<body>
+  <div class="converter">
+    <h1>HEX to RGBA Converter</h1>
+    <label for="hexInput">Enter HEX color code:</label>
+    <input type="text" id="hexInput" placeholder="e.g., #ff0000" />
+    <button onclick="convertHexToRgba()">Convert</button>
+    <div id="rgbaResult"></div>
+  </div>
+
+  <script>
+    function convertHexToRgba() {
+      const hexInput = document.getElementById('hexInput').value.trim();
+      
+      // Check if input is a valid HEX color
+      if (!/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(hexInput)) {
+        alert('Invalid HEX color code. Please enter a valid HEX color code.');
+        return;
+      }
+      
+      // Remove # if present
+      const hex = hexInput.replace('#', '');
+      
+      let r, g, b;
+      
+      if (hex.length === 3) {
+        // Convert short hex (#RGB) to full hex (#RRGGBB)
+        r = parseInt(hex.charAt(0) + hex.charAt(0), 16);
+        g = parseInt(hex.charAt(1) + hex.charAt(1), 16);
+        b = parseInt(hex.charAt(2) + hex.charAt(2), 16);
+      } else {
+        // Convert full hex (#RRGGBB) to RGB
+        r = parseInt(hex.substring(0, 2), 16);
+        g = parseInt(hex.substring(2, 4), 16);
+        b = parseInt(hex.substring(4, 6), 16);
+      }
+      
+      // Display RGBA result
+      const rgbaResult = document.getElementById('rgbaResult');
+      rgbaResult.textContent = `RGBA(${r}, ${g}, ${b}, 1)`;
+    }
+  </script>
+</body>
+</html>
